@@ -19,6 +19,13 @@ void Enemy::Draw() {
         static_cast<int>(dimensions_.y),
         color_
     );
+    DrawRectangleLines(
+        static_cast<int>(position_.x),
+        static_cast<int>(position_.y), 
+        static_cast<int>(dimensions_.x),
+        static_cast<int>(dimensions_.y),
+        RED
+    );
 }
 
 const Vector2& Enemy::GetPosition() const {

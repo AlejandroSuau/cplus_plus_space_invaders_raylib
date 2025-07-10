@@ -17,9 +17,19 @@ public:
     void Draw();
 
 private:
+    enum class EDirection {
+        LEFT = -1,
+        NONE = 0,
+        RIGHT = 1
+    };
+
     Enemies enemies_;
     Timer timer_to_step_;
+    EDirection direction_;
+    float x_limit_begin_;
+    float x_limit_end_;
 
     void Init();
     void Step();
+    void SwapDirection();
 };
