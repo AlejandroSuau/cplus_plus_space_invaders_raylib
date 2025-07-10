@@ -3,7 +3,9 @@
 #include <raylib.h>
 
 #include "Config.hpp"
+
 #include "classes/Player.hpp"
+#include "classes/EnemyList.hpp"
 
 #include <string>
 
@@ -16,6 +18,7 @@ private:
     int width_, height_;
     std::string title_;
 
+    EnemyList enemy_list_;
     Player player_{Vector2{50.f, 50.f}};
 
     void Init();

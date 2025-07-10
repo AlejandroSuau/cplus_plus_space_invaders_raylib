@@ -2,8 +2,11 @@
 
 #include "Config.hpp"
 
-Player::Player(Vector2 position)
-    : position_(position), speed_(PlayerAttribs::kSpeed), dimensions_(PlayerAttribs::kDimensions), color_(PlayerAttribs::kColor) {}
+Player::Player(const Vector2 position)
+    : position_(position)
+    , dimensions_(PlayerAttribs::kDimensions)
+    , speed_(PlayerAttribs::kSpeed)
+    , color_(PlayerAttribs::kColor) {}
 
 void Player::Update() {
     if (IsKeyDown(KEY_LEFT) && position_.x - speed_ > 0) {

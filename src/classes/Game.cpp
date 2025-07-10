@@ -20,7 +20,10 @@ void Game::Run() {
 }
 
 void Game::Update() {
+    const float dt = GetFrameTime();
+    
     player_.Update();
+    enemy_list_.Update(dt);
 }
 
 void Game::Draw() {
@@ -30,6 +33,7 @@ void Game::Draw() {
     DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 
     player_.Draw();
+    enemy_list_.Draw();
 
     EndDrawing();
 }

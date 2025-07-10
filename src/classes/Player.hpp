@@ -1,10 +1,10 @@
 #pragma once
 
-#include "raylib.h"
+#include <raylib.h>
 
 class Player {
 public:
-    Player(Vector2 position);
+    Player(const Vector2 position);
 
     void Update();
     void Draw() const;

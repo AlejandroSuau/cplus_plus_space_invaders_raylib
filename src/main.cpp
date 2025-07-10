@@ -1,11 +1,10 @@
-#include <iostream>
 
+#include "Config.hpp"
 #include "classes/Game.hpp"
 
 int main() {
-    Game game(600, 600, "SpaceInvaders");
+    Game game(kScreenWidth, kScreenHeight, "SpaceInvaders");
     game.Run();
 
-    std::cout << "Hello world!" << std::endl;
     return 0;
 }
