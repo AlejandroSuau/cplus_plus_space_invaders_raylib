@@ -1,0 +1,61 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.16)
+
+PROJECT(SpaceInvaders LANGUAGES CXX)
+
+SET(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+INCLUDE(FetchContent)
+
+# Dependencies
+SET(RAYLIB_VERSION 5.0)
+
+FetchContent_Declare(
+    raylib
+    DOWNLOAD_EXTRACT_TIMESTAMP OFF
+    URL https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz
+    FIND_PACKAGE_ARGS
+)
+
+FetchContent_MakeAvailable(raylib)
+
+ADD_EXECUTABLE(${PROJECT_NAME})
+ADD_SUBDIRECTORY(src)
+
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+
+SET_PROPERTY(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+
+
+if ("${PLATFORM}" STREQUAL "Web")
+    ADD_CUSTOM_COMMAND(
+        TARGET ${PROJECT_NAME} PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/../assets
+    )
+    #DEPENDS ${PROJECT_NAME}
+else()
+    ADD_CUSTOM_COMMAND(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
+    )
+    #DEPENDS ${PROJECT_NAME}
+endif()
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} raylib)
+
+if ("${PLATFORM}" STREQUAL "Web")
+    # Tell Emscripten to build an example.html file.
+    SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
+    TARGET_LINK_OPTIONS(${PROJECT_NAME} PUBLIC -sUSE_GLFW=3 PUBLIC --preload-file assets)
+endif()
+
+# Checks if OSX and links appropriate frameworks (Only required on MacOS)
+if (APPLE)
+    TARGET_LINK_LIBRARIES(
+        ${PROJECT_NAME}
+        "-framework IOKit"
+        "-framework Cocoa"
+        "-framework OpenGL")
+endif()
